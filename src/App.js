@@ -3,12 +3,28 @@ import Palette from './Palette';
 import seedColors from './seedColors';
 import { generatePalette } from './colorHelpers';
 
+function findPalette(id) {
+  return seedColors.find(function (palette) {
+    return palette.id === id;
+  });
+}
+
 function App() {
 
   return (
     <Switch>
       <Route exact path='/' render={() => <h1>Palette List goes here</h1>} />
-      <Route exact path='/palette/:id' render={() => <h1>Specific palette</h1>} />
+      <Route
+        exact
+        path='/palette/:id'
+        render={routeProps => (
+          <Palette
+            palette={generatePalette(
+              findPalette(routeProps.match.params.id)
+            )}
+          />
+        )}
+      />
     </Switch>
     // <div>
     //   <Palette palette={generatePalette(seedColors[4])} />
